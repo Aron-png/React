@@ -57,7 +57,9 @@ function ListaPeliculas(props){
             //lo que te permite el ` es convertirle en un String. AltGr y teclado al costado de enter
             
             listacol.push(
-                <div className="col-md-6"><CardPelicula peli={pelicula}/></div>
+                <div className="col-md-6">
+                    <CardPelicula key={pelicula.id} peli={pelicula}/>
+                    </div>
             )
         }else{
             listacol.push(
@@ -74,7 +76,7 @@ function ListaPeliculas(props){
     if(props.peliculas.length % 2 !== 0){
         listacol = []
         listacol.push(
-            <div className="col-md-6"><CardPelicula peli={props.peliculas[props.peliculas.length-1]} />
+            <div className="col-md-6"><CardPelicula key={props.pelicula.id} peli={props.peliculas[props.peliculas.length-1]} />
             </div>
         )
         listarow.push(

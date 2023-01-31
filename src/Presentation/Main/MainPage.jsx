@@ -1,6 +1,7 @@
 import { useEffect} from "react"
 import {useLocation, useNavigate} from "react-router-dom"
 import ListaPeliculas from "./components/ListaPeliculas"
+import Filtro from "./components/Filtro"
 {
     /*
     En conclucion: Se modifico todo esto para que cuando uno valla con el enlace
@@ -27,6 +28,8 @@ function MainPage(){
              url: "https://lumiere-a.akamaihd.net/v1/images/og_cars_lightningmcqueenday_18244_4435f27a.jpeg?region=40,0,1120,630"
          }
      ]*/
+     const [listaPeliculas, setListaPeliculas] =usesSate([])
+     const [listaCategoriasPeliculas, setListaCategoriasPeliculas] =usesSate([])
     //Con el state podemos enviar un objeto javaScript y se guarda esta info
     //en la pagina (LoginPage), sino
     const obtenerPeliculas = function(){
@@ -39,9 +42,61 @@ function MainPage(){
         //then es una funcion asincrona, asique el console puede pintar antes o dsps.
         promesa.then(function (response){
             console.log("respuesta de servidor")
+            //METODO 1:
+            const promesaResponse=response.text()//El text() tmb es asincrona
+            //El text() es una Promise<String>: cuando se termina una funcion, devolver un String
+            promesaResponse.then(function(data){
+                console.log("Respuesta del servidor:", data)
+                const dataJ = JSON.parse(data)//Convertir de String a objeto
+                console.log("Respuesta en objeto:",dataJ)
+            }
+            )
+            //METODO 2:
+            //Ponerse al dia del metodo 2
+            //HABIA UNA PARTE DONDE SALE ERROR
+            
         })
         console.log("fin de la funcion obtener peliculas")
     }
+    //                   ESTA FUNCION reemplaza a obtenerPeliculas
+    //async sirve para avisarle al navegador que sera una funcion Asincrona, ya no es promesa
+    const obtenerPeliculasAsyncAwait = async function(){
+        try{
+        //await vuelve a fetch Sincrona.
+        const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=peliculas")
+        const dataJSON = await response.json()
+        console.log("Respuesta en objeto:",dataJSON)
+        setListaPeliculas(dataJSON)
+
+        }catch(error){//Para manejar errores
+            console.error("Error de comunicacion")
+        }
+    }
+    const obtenerCategoriasPeliculasAsyncAwait = async function(){
+        try{
+            const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=Categorias")
+            const data = await response.json()
+            setListaCategoriasPeliculas(data)
+        }catch(error){//Para manejar errores
+            console.error("Error de comunicacion")
+        }
+    }
+    const filtrarPelicula = function(categoriaId){
+        try{
+            //await vuelve a fetch Sincrona.
+            const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=peliculas")
+            const dataJSON = await response.json()
+            console.log("Respuesta en objeto:",dataJSON)
+            const listaPeliculaFiltrada = dataJSON.filter(function(pelicula){
+                return pelicula.categoria == categoriaId
+            })
+            
+    
+            }catch(error){//Para manejar errores
+                console.error("Error de comunicacion")
+            }
+    }
+    obtenerPeliculasAsyncAwait()
     obtenerPeliculas()
     const location = useLocation()
     const navigate = useNavigate()
@@ -72,6 +127,9 @@ function MainPage(){
     //la manera correcta es evaluar SOLO el estado
         if(location.state == null){
         navigate("/")
+        }else{
+            obtenerCategoriasPeliculasAsyncAwait()
+            obtenerPeliculasAsyncAwait()
         }
     },[])
 
@@ -90,8 +148,12 @@ function MainPage(){
     //<ListaPeliculas peliculas = {ListaPeliculas}/>
     //O podemos usar esto
     //Main Page: {location.state.username}
+    //La data fue "listPeli" en peliculas = {"aqui"}, pero se cambio la forma de acceder los datos.
      return location.state !== null?
-     <div><ListaPeliculas peliculas = {[]}/></div> : <div></div> 
+     <div>
+        <Filtro categorias={listaCategoriasPeliculas} onFiltrar={filtrarPelicula}/>
+        <ListaPeliculas peliculas = {[listaPeliculas]}/></div> : <div>
+        </div> 
 
 }
 
