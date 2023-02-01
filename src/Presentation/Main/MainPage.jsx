@@ -28,8 +28,8 @@ function MainPage(){
              url: "https://lumiere-a.akamaihd.net/v1/images/og_cars_lightningmcqueenday_18244_4435f27a.jpeg?region=40,0,1120,630"
          }
      ]*/
-     const [listaPeliculas, setListaPeliculas] =usesSate([])
-     const [listaCategoriasPeliculas, setListaCategoriasPeliculas] =usesSate([])
+     const [listaPeliculas, setListaPeliculas] = useState([])
+     const [listaCategorias, setListaCategorias] = useState([])
     //Con el state podemos enviar un objeto javaScript y se guarda esta info
     //en la pagina (LoginPage), sino
     const obtenerPeliculas = function(){
@@ -52,54 +52,63 @@ function MainPage(){
             }
             )
             //METODO 2:
-            //Ponerse al dia del metodo 2
-            //HABIA UNA PARTE DONDE SALE ERROR
+            /*
+            //La funcion json devuelve cualquier objeto de javaScript
+            const promesaResponse=response.join()//El text() tmb es asincrona
+            //El text() es una Promise<String>: cuando se termina una funcion, devolver un String
+            promesaResponse.then(function(data){
+                //La data al ser un objeto, ya no necesita del "".parse"
+                console.log("Respuesta en objeto:",data)
+            */
+            //Cuando SALE ERROR:
+            promesaResponse.cath(function(err){
+                console.error("Error de comunicacion")
+            })
             
         })
         console.log("fin de la funcion obtener peliculas")
     }
     //                   ESTA FUNCION reemplaza a obtenerPeliculas
     //async sirve para avisarle al navegador que sera una funcion Asincrona, ya no es promesa
-    const obtenerPeliculasAsyncAwait = async function(){
-        try{
-        //await vuelve a fetch Sincrona.
-        const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=peliculas")
-        const dataJSON = await response.json()
-        console.log("Respuesta en objeto:",dataJSON)
-        setListaPeliculas(dataJSON)
-
-        }catch(error){//Para manejar errores
-            console.error("Error de comunicacion")
-        }
-    }
-    const obtenerCategoriasPeliculasAsyncAwait = async function(){
-        try{
-            const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=Categorias")
-            const data = await response.json()
-            setListaCategoriasPeliculas(data)
-        }catch(error){//Para manejar errores
-            console.error("Error de comunicacion")
-        }
-    }
-    const filtrarPelicula = function(categoriaId){
-        try{
-            //await vuelve a fetch Sincrona.
+    const obtenerPeliculasAsyncAwait = async function() {
+        try {
             const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=peliculas")
-            const dataJSON = await response.json()
-            console.log("Respuesta en objeto:",dataJSON)
-            const listaPeliculaFiltrada = dataJSON.filter(function(pelicula){
+            const data = await response.json()
+            console.log("Respuesta del servidor:", data)
+            setListaPeliculas(data)
+        }catch(error) {
+            console.error("Error de comunicacion")
+        }
+        
+    }
+
+    const obtenerCategoriasAsyncAwait = async function() {
+        try {
+            const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=categorias")
+            const data = await response.json()
+            setListaCategorias(data)
+        }catch(error) {
+            console.error("Error obteniendo categorias")
+        }
+    }
+
+    const filtrarPelicula = async function (categoriaId) {
+        try {
+            const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=peliculas")
+            const data = await response.json()
+            const listaPeliculasFiltrada = data.filter(function(pelicula) {
                 return pelicula.categoria == categoriaId
             })
-            
     
-            }catch(error){//Para manejar errores
-                console.error("Error de comunicacion")
-            }
+            setListaPeliculas(listaPeliculasFiltrada)
+        }catch(error) {
+            console.error("Error de comunicacion")
+        }
+        
+        
     }
-    obtenerPeliculasAsyncAwait()
-    obtenerPeliculas()
-    const location = useLocation()
-    const navigate = useNavigate()
+
+    
     console.log(location)
     {
         /* 
@@ -128,7 +137,7 @@ function MainPage(){
         if(location.state == null){
         navigate("/")
         }else{
-            obtenerCategoriasPeliculasAsyncAwait()
+            obtenerCategoriasAsyncAwait()
             obtenerPeliculasAsyncAwait()
         }
     },[])
@@ -151,7 +160,7 @@ function MainPage(){
     //La data fue "listPeli" en peliculas = {"aqui"}, pero se cambio la forma de acceder los datos.
      return location.state !== null?
      <div>
-        <Filtro categorias={listaCategoriasPeliculas} onFiltrar={filtrarPelicula}/>
+        <Filtro categorias={listaCategorias} onFiltrar={filtrarPelicula}/>
         <ListaPeliculas peliculas = {[listaPeliculas]}/></div> : <div>
         </div> 
 
