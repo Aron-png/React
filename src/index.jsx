@@ -13,9 +13,7 @@ import Content from './Content';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    
-    {/*
+  /*
     Ejer1:
     <Header />
     <Content 
@@ -23,15 +21,17 @@ root.render(
       apellido="Perez"
       sePintaNombre={ true } />
     <Footer />
-    */}
+    */
+  <React.StrictMode>
     <BrowserRouter>
-    <Routes>
-      {//Aca alineamos los hiperviculos a una pagina e importamos sus librerias
+      <Routes>
+        {//Aca alineamos los hiperviculos a una pagina e importamos sus librerias
       }
-        <Route path='/' element={ <LoginPage/> } />
-        <Route path='/main' element={ <MainPage/> } />
-        <Route path='/about' element={ <AboutPage/> } />
-        <Route path='/content' element={ <Content/> } />
+      
+        <Route path='/20230_2-hola-react/content' element={ <Content/> } />
+        <Route path='/20230_2-hola-react/' element={ <LoginPage/> } />
+        <Route path='/20230_2-hola-react/main' element={ <MainPage/> } />
+        <Route path='/20230_2-hola-react/about' element={ <AboutPage/> } />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

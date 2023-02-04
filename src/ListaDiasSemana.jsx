@@ -38,7 +38,7 @@ function ListaDias(props) {
 
 // Componente React
 function ListaDiasSemana(props) {
-    //Variable de estado de React
+    // Variable de estado de React
     //useState, funcion de la libreria React = inicializa los variables de estado
     //modovisualizacion = "tabla"
     //tmb se reemplaza por el useState("props.modo")
@@ -49,7 +49,6 @@ function ListaDiasSemana(props) {
         if (modoVisualizacion === "tabla") {
             // cambiar a modo lista
             setModoVisualizacion("lista")
-            //Cambiar a modo lista
             //No puedo hacer esto porque es un objeto especial
             //modoVisualizacion="lista"
         }else {
@@ -63,12 +62,6 @@ function ListaDiasSemana(props) {
             <ListaDias modo={ modoVisualizacion } lista={ props.lista }/>
         </div>
     </div>   
-
-
-    
-    
 }
 
 export default ListaDiasSemana
-
-

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom"
-import LoginForm from "./componentes/LoginForm"
+import LoginForm from "./components/LoginForm"
 
-function LoginPage(){
+function LoginPage() {
+
+    const navigate = useNavigate()
 /*
 Nota: hubs funciones que nos permiten tener ciertas funcionalidades que no tiene relacion con los 
 hijos y que restringen los "function".
@@ -10,31 +12,36 @@ useNavigate()->me permite cambiar de pagina, prefiero cambiar de pagina aca y no
                por temas de orden, se estan intercambiando con el mismo nivel de padre.
 El navigate se usa mas adelante, al costado del ("/main"), buscar con ctrl+F
 */
-    const navigate = useNavigate()
-    const onLoginOk = function(usuario, password){
-        if (usuario === "pw"
-        && password === "123") {
-            
-        //dataUsuario es un objeto JavaScript, "podemos" convertirlo en un STRING, si queremos.
-        const dataUsuario = {
-            username : usuario,
-            password : password
-        }
-       //convierte el objeto JavaScript a un STRING de JSON 
-       //(necesitamos hacer esto para el sessionStorage)
-       const dataUsuarioJSON = JSON.stringify(dataUsuario)
-       console.log(dataUsuario)
-       console.log(dataUsuarioJSON)
-       //el "sessionStorage" se guarda data solo de tipo STRING hasta que se cierre la pestaña
-       //(mejor conocido, hasta que se cierre la SESION)
-       //Con el "localStorage", es por siempre, asi apagues la pc.
-       //sessionStorage.setItem("nombre", valor) = guardando info
-        sessionStorage.setItem("DATA_USERNAME", dataUsuarioJSON)
-        navigate("/main",{
-            //Con el state podemos enviar un objeto javaScript y poder obtenerlo en la
-            //siguiennte pagina (MainPage)
-            state:{
-                username: usuario
+    const onLoginOk = function(
+        usuario, password
+    ) {
+        if (usuario === "pw" 
+            && password === "123") {
+            //dataUsuario es un objeto JavaScript, "podemos" convertirlo en un STRING, si queremos.
+            const dataUsuario = {
+                username : usuario,
+                password : password
+            }
+
+            // JSON.stringify : convierte objetos js a JSON (string)
+            //convierte el objeto JavaScript a un STRING de JSON 
+            //(necesitamos hacer esto para el sessionStorage)
+            const dataUsuarioJSON = JSON.stringify(dataUsuario)
+            console.log(dataUsuario)
+            console.log(dataUsuarioJSON)
+            // Guardado en session storage
+            //el "sessionStorage" se guarda data solo de tipo STRING hasta que se cierre la pestaña
+            //(mejor conocido, hasta que se cierre la SESION)
+            //Con el "localStorage", es por siempre, asi apagues la pc.
+            //sessionStorage.setItem("nombre", valor) = guardando info
+            sessionStorage.setItem("DATA_USUARIO", dataUsuarioJSON)
+
+
+            navigate("/20230_2-hola-react/main", {
+                //Con el state podemos enviar un objeto javaScript y poder obtenerlo en la
+                //siguiennte pagina (MainPage)
+                state : {
+                    username : usuario
                 }
             })
         }
@@ -56,11 +63,10 @@ El navigate se usa mas adelante, al costado del ("/main"), buscar con ctrl+F
         */
     }
 
-
-return <div className="container">
-    <div className="row">
-        <div className="col"></div>
-        <div className="col">
+    return <div className="container">
+        <div className="row">
+            <div className="col"></div>
+            <div className="col">
             {
                 /*
                 El LoginForm solito ejecuta el codigo que hay dentro del archivo
@@ -71,13 +77,12 @@ return <div className="container">
 
                 */
             }
-            <LoginForm
-                onLoginOk={ onLoginOk } />
+                <LoginForm 
+                    onLoginOk={ onLoginOk } />
+            </div>
+            <div className="col"></div>
         </div>
-        <div className="col"></div>
     </div>
-</div>
 }
-
 
 export default LoginPage

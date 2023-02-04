@@ -1,6 +1,6 @@
 import CardPelicula from "./CardPelicula"
 
-function ListaPeliculas(props){
+function ListaPeliculas(props) {
     {
         /*
                                              El codigo:
@@ -25,7 +25,7 @@ function ListaPeliculas(props){
             <CardPelicula/>
         </div>
     </div>
-        El proble con esto es que el md-6 suma mas de 12. Yo deseo que luego de 2, creee otro div:
+        El problema con esto es que el md-6 suma mas de 12. Yo deseo que luego de 2, creee otro div:
       
     <div className="row">
         <div className="col-md-6">
@@ -47,47 +47,60 @@ function ListaPeliculas(props){
       
         */
     }
-    const listarow = []//Lista de filas
-    let listacol = []//Lista de columnas
+    const listaRows = []//Lista de filas
+    let listaCols = []//Lista de columnas
     //la funcion map ejecuta la funcion en cada elemento de la lista de manera PARALELA
     //En for seria secuencial. PERO el forEach() funciona de manera a map pero se ejecuta de forma //
     //SECUENCIAL
-    props.peliculas.forEach(function(pelicula, index){
-        if(index % 2 === 0){//indices pares, para que cada que 2 "col" se cree un "row" 
+
+    props.peliculas.forEach(function(pelicula, index) {
+        if (index % 2 === 0) {//indices pares, para que cada que 2 "col" se cree un "row" 
             //lo que te permite el ` es convertirle en un String. AltGr y teclado al costado de enter
-            
-            listacol.push(
+            listaCols.push(
                 <div className="col-md-6">
-                    <CardPelicula key={pelicula.id} peli={pelicula}/>
-                    </div>
+                    {
+                        //El key es necesario para q no salga un warning(advertencia y no error).
+                    }
+                    <CardPelicula key={ pelicula.id } pelicula={ pelicula }/>
+                </div>
             )
-        }else{
-            listacol.push(
-                <div className="col-md-6"><CardPelicula peli={pelicula}/></div>
+        } else {
+            listaCols.push(
+                <div className="col-md-6">
+                    <CardPelicula key={ pelicula.id } pelicula={ pelicula } />
+                </div>
             )
-            listarow.push(
-                <div className="row">{ listacol }</div>
+            listaRows.push(
+                <div className="row">
+                    { listaCols }
+                </div>
             )
-            listacol = []
+            listaCols = []
         }
     })
     //Como pinta de 2 e 2, Si el numero de peliculas es impar (faltara una pelicula por pintar)
     //Es por esto que ponemos:
-    if(props.peliculas.length % 2 !== 0){
-        listacol = []
-        listacol.push(
-            <div className="col-md-6"><CardPelicula key={props.pelicula.id} peli={props.peliculas[props.peliculas.length-1]} />
+    if (props.peliculas.length % 2 !== 0) {
+        listaCols = []
+        listaCols.push(
+            <div className="col-md-6">
+                <CardPelicula key={ props.peliculas[props.peliculas.length - 1].id } 
+                    pelicula={ props.peliculas[props.peliculas.length - 1] }/>
             </div>
         )
-        listarow.push(
-            <div className="row">{ listacol }</div>
+        listaRows.push(
+            <div className="row">
+                { listaCols }
+            </div>
         )
     }
 
     return <div>
         {
-            listarow//Retornar lista filas
+            listaRows//Retornar lista filas
         }
     </div>
+    
 }
+
 export default ListaPeliculas
