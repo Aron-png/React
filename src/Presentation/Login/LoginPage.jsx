@@ -37,7 +37,7 @@ El navigate se usa mas adelante, al costado del ("/main"), buscar con ctrl+F
             sessionStorage.setItem("DATA_USUARIO", dataUsuarioJSON)
 
 
-            navigate("/20230_2-hola-react/main", {
+            navigate("/React_Aprender/main", {
                 //Con el state podemos enviar un objeto javaScript y poder obtenerlo en la
                 //siguiennte pagina (MainPage)
                 state : {

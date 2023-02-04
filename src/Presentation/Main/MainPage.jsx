@@ -161,7 +161,7 @@ function MainPage() {
     }
     useEffect(function() {
         if (location.state == null) {
-            navigate("/")
+            navigate("/React_Aprender/")
     /*
     Con location.state podemos acceder al objeto que se envia desde la pag LoginPage, q en este
     caso el USUARIO, pero sino escribio nada ahi lo detectara como nulo

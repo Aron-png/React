@@ -28,10 +28,10 @@ root.render(
         {//Aca alineamos los hiperviculos a una pagina e importamos sus librerias
       }
       
-        <Route path='/20230_2-hola-react/content' element={ <Content/> } />
-        <Route path='/20230_2-hola-react/' element={ <LoginPage/> } />
-        <Route path='/20230_2-hola-react/main' element={ <MainPage/> } />
-        <Route path='/20230_2-hola-react/about' element={ <AboutPage/> } />
+        <Route path='/React_Aprender/content' element={ <Content/> } />
+        <Route path='/React_Aprender/' element={ <LoginPage/> } />
+        <Route path='/React_Aprender/main' element={ <MainPage/> } />
+        <Route path='/React_Aprender/about' element={ <AboutPage/> } />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
