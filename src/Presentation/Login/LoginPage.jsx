@@ -1,9 +1,26 @@
-import { useNavigate } from "react-router-dom"
+import { Await, useNavigate } from "react-router-dom"
 import LoginForm from "./components/LoginForm"
 
 function LoginPage() {
 
     const navigate = useNavigate()
+    const loginHttp = async function(usuario, password){
+        //1. Peticion HTTP POST -> /endpoints/login
+        //El fetch esta configurado por defecto hacer peticiones GET, lo transformamos a POST
+        const response = await fetch("http://localhost:8000/endpoints/login",
+        {
+            method : "POST",//Trandormamos
+            //Se va a enviar el objeto en formato JSON como STRING.
+            body : JSON.stringify(
+                {usuario : usuario, password : password}
+                )
+        }
+        )
+        //Respuesta en forma de JSON
+        const data = await response.json()
+        
+        return data.error
+    }
 /*
 Nota: hubs funciones que nos permiten tener ciertas funcionalidades que no tiene relacion con los 
 hijos y que restringen los "function".
@@ -12,11 +29,12 @@ useNavigate()->me permite cambiar de pagina, prefiero cambiar de pagina aca y no
                por temas de orden, se estan intercambiando con el mismo nivel de padre.
 El navigate se usa mas adelante, al costado del ("/main"), buscar con ctrl+F
 */
-    const onLoginOk = function(
+    const onLoginOk = async function(
         usuario, password
     ) {
-        if (usuario === "pw" 
-            && password === "123") {
+        const error = await loginHttp(usuario, password)
+        if(error === ""){
+                                            //Login Correcto
             //dataUsuario es un objeto JavaScript, "podemos" convertirlo en un STRING, si queremos.
             const dataUsuario = {
                 username : usuario,
@@ -44,6 +62,8 @@ El navigate se usa mas adelante, al costado del ("/main"), buscar con ctrl+F
                     username : usuario
                 }
             })
+        }else{
+            console.error(error)
         }
         /*
         Gracias a que pusimos console.log(dataUsuario... y la de JASON, podemos ver:

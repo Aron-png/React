@@ -121,10 +121,14 @@ function MainPage() {
     //Obtener lista de peliculas filtradas por categoria
     const filtrarPelicula = async function (categoriaId) {
         try {
-            const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=peliculas")
+            //Interpolacion de String con JavaScript
+            //Para concatener variable con cadenas de String, envez de usar +
+            const response = await fetch(
+                `http://127.0.0.1:8000/endpoints/peliculas/listar?categoria=${categoriaId}`
+                )
             const data = await response.json()//Recojo el objeto, lista de peliculas
-            let peliculas = data;
-            //Si la categoria id es -1, me devuelve toda la lista porque no pasa por el filtrado
+            //let peliculas = data;
+            /*//Si la categoria id es -1, me devuelve toda la lista porque no pasa por el filtrado
             if (categoriaId != -1) {
                 //filter recibe una funcion predicado = que devuelve true o false.
                 //filter es como un map, si la funcion devuelve true ese elemento se va a mantener.
@@ -135,7 +139,12 @@ function MainPage() {
             }
             //Ahora la pelicula filtrada por categoria ira a Variable de estado
             //Aunque si no cumple el "if", sera todo la lista de peliculas
-            setListaPeliculas(peliculas)
+            setListaPeliculas(peliculas)*/
+            if(data.error===""){
+                setListaCategorias(data.peliculas)
+            }else{
+                console.error(data.error)
+            }
         }catch(error) {
             console.error("Error de comunicacion")
         }
@@ -161,7 +170,7 @@ function MainPage() {
     }
     useEffect(function() {
         if (location.state == null) {
-            navigate("/React_Aprender/")
+            navigate("/")
     /*
     Con location.state podemos acceder al objeto que se envia desde la pag LoginPage, q en este
     caso el USUARIO, pero sino escribio nada ahi lo detectara como nulo
