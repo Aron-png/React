@@ -111,9 +111,15 @@ function MainPage() {
    //Obtener lista de categorias
     const obtenerCategoriasAsyncAwait = async function() {
         try {
-            const response = await fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=categorias")
+            const response = await fetch("http://127.0.0.1:8000/endpoints/categorias/listar")
             const data = await response.json()//Se obtiene la data en forma de objeto
-            setListaCategorias(data)//Variable de estado
+            
+            if(data.error === ""){
+                setListaCategorias(data.categoria)//Variable de estado
+            }else{
+                console.error(data.error)
+            }
+            
         }catch(error) {
             console.error("Error obteniendo categorias")
         }
