@@ -141,7 +141,7 @@ function MainPage() {
             //Aunque si no cumple el "if", sera todo la lista de peliculas
             setListaPeliculas(peliculas)*/
             if(data.error===""){
-                setListaCategorias(data.peliculas)
+                setListaPeliculas(data.peliculas)
             }else{
                 console.error(data.error)
             }
