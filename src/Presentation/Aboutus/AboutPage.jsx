@@ -4,7 +4,7 @@ function AboutPage() {
     //sessionStorage.getItem("nombre", valor) = EXTRALLENDO info.
     //Ahora, el dataUsuarioJSON = Es un String
     const dataUsuarioJSON = sessionStorage.getItem("DATA_USUARIO")
-    // JSON.parse transforma de JSON (string) -> objeto JS
+    // JSON.parse transforma: JSON (string) -> objeto JS
     //De JSON pasarse al objeto (para usar "dataUsuario.username" ya q los objetos tiene
     //estos atributos y no el String)
     const dataUsuario = JSON.parse(dataUsuarioJSON)

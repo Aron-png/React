@@ -2,14 +2,20 @@ import { Await, useNavigate } from "react-router-dom"
 import LoginForm from "./components/LoginForm"
 
 function LoginPage() {
+/*
+useNavigate()->Principalmente, me permite cambiar de pesteña, en este caso "/React_Aprender/main"
 
+Nota:          Prefiero cambiar de pagina aca y no en el LoginForm
+               por temas de orden, se estan intercambiando con el mismo nivel de padre.
+El navigate se usa mas adelante, buscar con ctrl+F
+*/
     const navigate = useNavigate()
     const loginHttp = async function(usuario, password){
         //1. Peticion HTTP POST -> /endpoints/login
         //El fetch esta configurado por defecto hacer peticiones GET, lo transformamos a POST
         const response = await fetch("http://localhost:8000/endpoints/login",
         {
-            method : "POST",//Trandormamos
+            method : "POST",//Transformamos
             //Se va a enviar el objeto en formato JSON como STRING.
             body : JSON.stringify(
                 {usuario : usuario, password : password}
@@ -24,10 +30,6 @@ function LoginPage() {
 /*
 Nota: hubs funciones que nos permiten tener ciertas funcionalidades que no tiene relacion con los 
 hijos y que restringen los "function".
-
-useNavigate()->me permite cambiar de pagina, prefiero cambiar de pagina aca y no en el LoginForm
-               por temas de orden, se estan intercambiando con el mismo nivel de padre.
-El navigate se usa mas adelante, al costado del ("/main"), buscar con ctrl+F
 */
     const onLoginOk = async function(
         usuario, password
@@ -41,8 +43,7 @@ El navigate se usa mas adelante, al costado del ("/main"), buscar con ctrl+F
                 password : password
             }
 
-            // JSON.stringify : convierte objetos js a JSON (string)
-            //convierte el objeto JavaScript a un STRING de JSON 
+            // JSON.stringify : convierte el objeto JavaScript a un STRING de JSON 
             //(necesitamos hacer esto para el sessionStorage)
             const dataUsuarioJSON = JSON.stringify(dataUsuario)
             console.log(dataUsuario)
@@ -54,10 +55,9 @@ El navigate se usa mas adelante, al costado del ("/main"), buscar con ctrl+F
             //sessionStorage.setItem("nombre", valor) = guardando info
             sessionStorage.setItem("DATA_USUARIO", dataUsuarioJSON)
 
-
             navigate("/React_Aprender/main", {
                 //Con el state podemos enviar un objeto javaScript y poder obtenerlo en la
-                //siguiennte pagina (MainPage)
+                //siguiennte pagina (MainPage), se busca como "location.state", poner ctrl+F
                 state : {
                     username : usuario
                 }

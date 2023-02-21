@@ -35,6 +35,7 @@ function MainPage() {
     //En el return pasara como variable a la pagina "ListaPeliculas".
 
     //ya no necesito obtenerPeliculas porque fue reemplazado por filtrarPelicula
+    //Aunque hay teoria o explicacion de cod dentro de esta funcion, por eso lo connservo
     const obtenerPeliculas = function(){
         //                             El fetch
         /*
@@ -42,18 +43,19 @@ function MainPage() {
         Es decir, puede recibir o enviar data al servidor, pero no se cuanto tiempo
         Se va a demorar este proceso... por eso es asincrona, para que nuestro cod
         No se quede esperando sin hacer nada. 
-        Dentro de la funciona esta la direccion en donde quiero hacer la peticion http
+        En el fecth, esta la direccion en donde quiero hacer la peticion http
         El link devuelve String de listaPeliculas
-        Ademas no te devuelve una lista de pelicula sino una promesa.
+        Ademas no te devuelve una lista de pelicula sino una "promesa".
+                                       OJO
         "Todas las funciones que te devuelvan un objeto promesa son fuciones asincronas".
         */
         const promesa = fetch("https://script.google.com/a/macros/ulima.edu.pe/s/AKfycbzRqLpRf7PXLuNQrgTKSTer6-Zt0dfmPmdDh-WmEr_dEm34Eh4qsfhMOADDoWgNKzdd/exec?entity=peliculas")
         
-        //Una promesa de ejecucion, una funcion que vamos a definir que se va ejecutar 
+        //Una promesa de ejecucion es una funcion que vamos a definir que se va ejecutar 
         //cuando termine de realizarse la peticion fetch
         promesa.then(function (response){
         //La funcion then te permite ejecutar el codigo cuando termine la peticion fetch.
-        //then es una funcion asincrona, asique el console puede pintar antes o dsps.
+        //then es una funcion asincrona, asi que el console puede pintar antes o dsps.
             console.log("respuesta de servidor", response)
             //Cuando vemos "response" en la consola esta en un flujo de datos que no se puede 
             //ENTENDER
@@ -96,7 +98,7 @@ function MainPage() {
     error.
     */
    /*
-    //                   ESTA FUNCION reemplaza a obtenerPeliculas
+    //             obtenerPeliculas (de otra forma, para evitar el triangulo)
         
     const obtenerPeliculassAsyncAwait = async function() {
 //async sirve para avisarle al navegador que sera una funcion Asincrona
